@@ -18,5 +18,7 @@ module.exports = {
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     // 关闭不允许require引入
     "@typescript-eslint/no-var-requires": "off",
+    // 关闭any检测
+    "@typescript-eslint/no-explicit-any": "off",
   },
 };
