@@ -1,6 +1,5 @@
 <template>
-  <div>登录</div>
-  <el-button type="primary">哈哈</el-button>
+  <div class="login"></div>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
@@ -8,4 +7,13 @@ import { defineComponent } from "vue";
 export default defineComponent({});
 </script>
 
-<style lang="less"></style>
+<style lang="less" scoped>
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: url("../../assets/img/bg.png");
+}
+</style>
