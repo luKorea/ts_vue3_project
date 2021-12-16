@@ -1,5 +1,5 @@
-import { computed } from 'vue'
-import { useStore } from 'vuex'
+import { computed } from "vue";
+import { useStore } from "vuex";
 
 /**
  * @description 封装store中常用函数
@@ -8,13 +8,13 @@ import { useStore } from 'vuex'
  * @param mapperFunctions
  * @returns {{}}
  */
-export function useStoreMapper (mapper, mapperFunctions) {
+export function useStoreMapper(mapper, mapperFunctions) {
   const store = useStore();
   const storeTypeFunctions = mapperFunctions(mapper);
   const storeTypeMapper = {};
-  Object.keys(storeTypeFunctions).forEach(keys => {
+  Object.keys(storeTypeFunctions).forEach((keys) => {
     const fn = storeTypeFunctions[keys].bind({ $store: store });
     storeTypeMapper[keys] = computed(fn);
-  })
+  });
   return storeTypeMapper;
 }

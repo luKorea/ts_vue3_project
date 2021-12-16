@@ -63,7 +63,7 @@ class KoreaRequest {
    * @description request 请求
    * @param config
    */
-  request<T>(config: KoreaRequestConfig): Promise<T> {
+  request<T>(config: KoreaRequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
       // 单个请求拦截器
       if (config.interceptors?.requestInterceptors) {
@@ -91,43 +91,43 @@ class KoreaRequest {
     });
   }
 
-  get<T>(config: KoreaRequestConfig): Promise<T> {
+  get<T>(config: KoreaRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "GET" });
   }
 
-  post<T>(config: KoreaRequestConfig): Promise<T> {
+  post<T>(config: KoreaRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "POST" });
   }
 
-  delete<T>(config: KoreaRequestConfig): Promise<T> {
+  delete<T>(config: KoreaRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "DELETE" });
   }
 
-  patch<T>(config: KoreaRequestConfig): Promise<T> {
+  patch<T>(config: KoreaRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "PATCH" });
   }
 
-  put<T>(config: KoreaRequestConfig): Promise<T> {
+  put<T>(config: KoreaRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "PUT" });
   }
 
-  options<T>(config: KoreaRequestConfig): Promise<T> {
+  options<T>(config: KoreaRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "OPTIONS" });
   }
 
-  purge<T>(config: KoreaRequestConfig): Promise<T> {
+  purge<T>(config: KoreaRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "PURGE" });
   }
 
-  head<T>(config: KoreaRequestConfig): Promise<T> {
+  head<T>(config: KoreaRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "HEAD" });
   }
 
-  link<T>(config: KoreaRequestConfig): Promise<T> {
+  link<T>(config: KoreaRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "LINK" });
   }
 
-  unlink<T>(config: KoreaRequestConfig): Promise<T> {
+  unlink<T>(config: KoreaRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "UNLINK" });
   }
 }

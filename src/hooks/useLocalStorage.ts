@@ -1,4 +1,4 @@
-import { ref, watch } from 'vue'
+import { ref, watch } from "vue";
 
 /**
  *
@@ -7,14 +7,14 @@ import { ref, watch } from 'vue'
  * @returns {*}
  */
 export default function (key, value) {
-  let data = ref(value);
+  const data = ref(value);
   if (value) {
-    localStorage.setItem(key, JSON.stringify(value))
+    localStorage.setItem(key, JSON.stringify(value));
   } else {
-    data.value = JSON.parse(localStorage.getItem(key))
+    data.value = JSON.parse(localStorage.getItem(key));
   }
-  watch(data, newValue => {
-    localStorage.setItem(key, JSON.stringify(newValue))
-  })
+  watch(data, (newValue) => {
+    localStorage.setItem(key, JSON.stringify(newValue));
+  });
   return data;
 }
