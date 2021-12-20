@@ -2,9 +2,10 @@
   <div class="sile-menu">
     <div class="logo">
       <img alt="logo" class="img" src="https://cn.vitejs.dev/logo.svg" />
-      <span class="title">CMS管理系统</span>
+      <span v-if="!collapse" class="title">CMS管理系统</span>
     </div>
     <el-menu
+      :collapse="collapse"
       active-text-color="#0a60bd"
       background-color="#0c2135"
       class="el-menu-vertical"
@@ -45,6 +46,12 @@ import { computed, defineComponent } from "vue";
 import { useStore } from "@/store";
 
 export default defineComponent({
+  props: {
+    collapse: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup() {
     const store = useStore();
     const menuList = computed(() => store.state.login.menuList);
@@ -106,7 +113,7 @@ export default defineComponent({
       .selectActiveColor(); // 菜单
     }
 
-    .el-menu-item:hover i::before {
+    .el-menu-item:hover i:before {
       .selectActiveColor(); // 菜单 icon
     }
 
@@ -114,7 +121,7 @@ export default defineComponent({
       .selectActiveColor(); // 目录
     }
 
-    .el-submenu__title:hover i::before {
+    .el-submenu__title:hover i:before {
       .selectActiveColor(); // 目录 icon
     }
 

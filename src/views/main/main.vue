@@ -1,12 +1,12 @@
 <template>
   <div class="main">
     <el-container class="main-content">
-      <el-aside :width="isCollapse ? '62px' : '210px'">
-        <nav-menu />
+      <el-aside :width="isCollapse ? '60px' : '210px'">
+        <nav-menu :collapse="isCollapse" />
       </el-aside>
       <el-container class="page">
         <el-header class="page-header">
-          <nav-header />
+          <nav-header @foldChange="foldChange" />
         </el-header>
         <el-container class="page-content">
           <el-main>
@@ -34,8 +34,12 @@ export default defineComponent({
   },
   setup() {
     const isCollapse = ref<boolean>(false);
+    const foldChange = (isFold: boolean) => {
+      isCollapse.value = isFold;
+    };
     return {
       isCollapse,
+      foldChange,
     };
   },
 });
