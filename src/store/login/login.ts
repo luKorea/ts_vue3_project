@@ -25,6 +25,7 @@ const loginModule: Module<ILoginState, IRootState> = {
       const token = localCache.getCache("token"),
         userInfo = localCache.getCache("userData"),
         menuList = localCache.getCache("menuList");
+      console.log(menuList, "menuList");
       if (token) commit("SET_TOKEN", token);
       if (userInfo) commit("SET_USERINFO", userInfo);
       if (menuList) commit("SET_MENU_LIST", menuList);
@@ -44,7 +45,7 @@ const loginModule: Module<ILoginState, IRootState> = {
         userInfoResult.data.role.id
       );
       commit("SET_MENU_LIST", userMenuResult.data);
-      localCache.setCache("menuList", userInfoResult.data);
+      localCache.setCache("menuList", userMenuResult.data);
       router.push("/main");
     },
     phoneLoginAction({ commit }, payload: any) {
