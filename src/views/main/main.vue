@@ -62,7 +62,7 @@ export default defineComponent({
 }
 
 .page-content {
-  height: calc(100% - 48px);
+  height: calc(100% - 48px - 60px);
 }
 
 .el-header,
