@@ -9,6 +9,7 @@ import {
 } from "@/service/api/login/login";
 import router from "@/router";
 import localCache from "@/utils/cache";
+import { mapMenuToRoutes } from "@/utils/map-menu-to-routes";
 
 const loginModule: Module<ILoginState, IRootState> = {
   namespaced: true,
@@ -62,6 +63,11 @@ const loginModule: Module<ILoginState, IRootState> = {
     },
     SET_MENU_LIST(state, menuList: Array<any>) {
       state.menuList = menuList;
+      const routes = mapMenuToRoutes(menuList);
+      // 动态添加路由
+      routes.forEach((route) => {
+        router.addRoute("main", route);
+      });
     },
   },
   getters: {},
