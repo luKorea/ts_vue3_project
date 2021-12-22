@@ -59,12 +59,12 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    const menuList = computed(() => store.state.login.menuList);
+    const menuList = computed(() => store.state.login.menuList).value;
 
     const router = useRouter();
     const route = useRoute();
     const currentPath = route.path;
-    const menu = pathMapToMenu(menuList.value, currentPath);
+    const menu = pathMapToMenu(menuList, currentPath);
     const defaultActive = ref<string>(menu.id + "");
 
     const handleItemClick = (item: any) => {

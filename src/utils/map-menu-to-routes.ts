@@ -1,4 +1,5 @@
 import type { RouteRecordRaw } from "vue-router";
+import { IBreadcrumb } from "@/base-ui/basic-breadcrumb";
 
 let firstMenu: any = null;
 
@@ -28,11 +29,30 @@ export function mapMenuToRoutes(menus: any[]): RouteRecordRaw[] {
   return routes;
 }
 
-export function pathMapToMenu(menuList: any[], currentPath: string): any {
+export function pathMapBreadcrumb(menuList: any[], currentPath: string) {
+  const breadcrumbs: IBreadcrumb[] = [];
+  pathMapToMenu(menuList, currentPath, breadcrumbs);
+  return breadcrumbs;
+}
+
+export function pathMapToMenu(
+  menuList: any[],
+  currentPath: string,
+  breadcrumbs?: IBreadcrumb[]
+): any {
   for (const menu of menuList) {
     if (menu.type === 1) {
       const findMenu = pathMapToMenu(menu.children ?? [], currentPath);
-      if (findMenu) return findMenu;
+      if (findMenu) {
+        breadcrumbs?.push({
+          name: menu.name,
+        });
+        breadcrumbs?.push({
+          name: findMenu.name,
+          path: findMenu.url,
+        });
+        return findMenu;
+      }
     } else if (menu.type === 2 && menu.url === currentPath) {
       return menu;
     }

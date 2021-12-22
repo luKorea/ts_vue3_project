@@ -6,21 +6,31 @@
       @click="handleFoldClick"
     ></i>
     <div class="nav-bread">
-      <div>面包屑</div>
+      <basic-breadcrumb :breadcrumbs="breadcrumbs" />
       <user-info />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import UserInfo from "components/nav-header/src/cpns/user-info.vue";
+import BasicBreadcrumb from "@/base-ui/basic-breadcrumb";
+import { pathMapBreadcrumb } from "@/utils/map-menu-to-routes";
+import { useStore } from "@/store";
+import { useRoute } from "vue-router";
 
 export default defineComponent({
-  components: { UserInfo },
+  components: { BasicBreadcrumb, UserInfo },
   emits: ["foldChange"],
   setup(props, { emit }) {
+    const store = useStore();
     const isFold = ref<boolean>(false);
+    let breadcrumbs = computed(() => {
+      const route = useRoute();
+      const menuList = store.state.login.menuList;
+      return pathMapBreadcrumb(menuList, route.path);
+    });
     const handleFoldClick = () => {
       isFold.value = !isFold.value;
       emit("foldChange", isFold.value);
@@ -29,6 +39,7 @@ export default defineComponent({
     return {
       isFold,
       handleFoldClick,
+      breadcrumbs,
     };
   },
 });
