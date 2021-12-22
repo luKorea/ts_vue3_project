@@ -1,5 +1,7 @@
 import type { RouteRecordRaw } from "vue-router";
 
+let firstMenu: any = null;
+
 // TODO 将菜单映射为routes, 将routes添加到router->main->children
 export function mapMenuToRoutes(menus: any[]): RouteRecordRaw[] {
   const routes: RouteRecordRaw[] = [];
@@ -16,6 +18,7 @@ export function mapMenuToRoutes(menus: any[]): RouteRecordRaw[] {
       if (menu.type === 2) {
         const route = allRoutes.find((route) => route.path === menu.url);
         if (route) routes.push(route);
+        if (!firstMenu) firstMenu = menu;
       } else {
         _recurseGetRoutes(menu.children);
       }
@@ -24,3 +27,16 @@ export function mapMenuToRoutes(menus: any[]): RouteRecordRaw[] {
   _recurseGetRoutes(menus);
   return routes;
 }
+
+export function pathMapToMenu(menuList: any[], currentPath: string): any {
+  for (const menu of menuList) {
+    if (menu.type === 1) {
+      const findMenu = pathMapToMenu(menu.children ?? [], currentPath);
+      if (findMenu) return findMenu;
+    } else if (menu.type === 2 && menu.url === currentPath) {
+      return menu;
+    }
+  }
+}
+
+export { firstMenu };

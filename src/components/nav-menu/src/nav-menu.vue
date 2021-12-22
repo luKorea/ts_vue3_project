@@ -6,10 +6,10 @@
     </div>
     <el-menu
       :collapse="collapse"
+      :default-active="defaultActive"
       active-text-color="#0a60bd"
       background-color="#0c2135"
       class="el-menu-vertical"
-      default-active="2"
       text-color="#b7bdc3"
     >
       <template v-for="item in menuList" :key="item.id">
@@ -45,9 +45,10 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import { useStore } from "@/store";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+import { pathMapToMenu } from "@/utils/map-menu-to-routes";
 
 export default defineComponent({
   props: {
@@ -58,16 +59,24 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    const router = useRouter();
     const menuList = computed(() => store.state.login.menuList);
+
+    const router = useRouter();
+    const route = useRoute();
+    const currentPath = route.path;
+    const menu = pathMapToMenu(menuList.value, currentPath);
+    const defaultActive = ref<string>(menu.id + "");
+
     const handleItemClick = (item: any) => {
       router.push({
         path: item.url ?? "/not-found",
       });
     };
+
     return {
       menuList,
       handleItemClick,
+      defaultActive,
     };
   },
 });
