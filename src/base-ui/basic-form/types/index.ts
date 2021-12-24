@@ -10,7 +10,7 @@ type IFormType =
   | "button";
 
 export interface IFormItem {
-  field?: string;
+  field: string;
   type: IFormType;
   label: string;
   rules?: any[];

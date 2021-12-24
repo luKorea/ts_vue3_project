@@ -38,8 +38,8 @@ export default defineComponent({
 
     return {
       isFold,
-      handleFoldClick,
       breadcrumbs,
+      handleFoldClick,
     };
   },
 });

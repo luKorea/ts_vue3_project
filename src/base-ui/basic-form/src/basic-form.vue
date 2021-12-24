@@ -1,5 +1,7 @@
 <template>
   <basic-container>
+    <!--标题插槽-->
+    <slot name="header"></slot>
     <el-form ref="form" :label-width="labelWidth + 'px'" class="basic-form">
       <el-row>
         <template v-for="item in formItems" :key="item.label">
@@ -9,6 +11,7 @@
                 v-if="item.type === 'input' || item.type === 'password'"
               >
                 <el-input
+                  v-model="formData[`${item.field}`]"
                   v-bind="item.otherOptions"
                   :placeholder="item.placeholder"
                   :show-password="item.type === 'password'"
@@ -16,6 +19,7 @@
               </template>
               <template v-else-if="item.type === 'select'">
                 <el-select
+                  v-model="formData[`${item.field}`]"
                   v-bind="item.otherOptions"
                   :placeholder="item.placeholder"
                   style="width: 100%"
@@ -30,6 +34,7 @@
               </template>
               <template v-else-if="item.type === 'datepicker'">
                 <el-date-picker
+                  v-model="formData[`${item.field}`]"
                   v-bind="item.otherOptions"
                   style="width: 100%"
                 ></el-date-picker>
@@ -39,14 +44,20 @@
         </template>
       </el-row>
     </el-form>
+    <!--底部插槽-->
+    <slot name="footer"></slot>
   </basic-container>
 </template>
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { ref, defineComponent, PropType, watch } from "vue";
 import { IFormItem } from "@/base-ui/basic-form/types";
 
 export default defineComponent({
   props: {
+    modelValue: {
+      type: Object,
+      require: true,
+    },
     labelWidth: {
       type: String,
       default: "100",
@@ -70,8 +81,18 @@ export default defineComponent({
       }),
     },
   },
-  setup() {
-    return {};
+  emits: ["update:modelValue"],
+  setup(props, { emit }) {
+    // 拷贝数据到子组件中
+    const formData = ref({ ...props.modelValue });
+    // 监听组件数据变化，通知父组件进行修改，不直接修改父组件的数据，实现单一数据流
+    watch(formData, (newValue) => emit("update:modelValue", newValue), {
+      deep: true,
+    });
+
+    return {
+      formData,
+    };
   },
 });
 </script>

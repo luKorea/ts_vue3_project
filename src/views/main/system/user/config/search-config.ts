@@ -15,12 +15,6 @@ export const searchFormConfig: IForm = {
       placeholder: "请输入用户名",
     },
     {
-      field: "realname",
-      type: "input",
-      label: "真实姓名",
-      placeholder: "请输入真实姓名",
-    },
-    {
       field: "cellphone",
       type: "input",
       label: "电话号码",
