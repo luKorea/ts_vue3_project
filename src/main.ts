@@ -11,6 +11,7 @@ import App from "./App.vue";
 // 全局公用组件
 import basicContainer from "./base-ui/basic-container";
 import basicForm from "./base-ui/basic-form";
+import basicTable from "./base-ui/basic-table";
 
 const app = createApp(App);
 
@@ -21,4 +22,5 @@ app.use(store);
 app.use(globalRegister);
 app.component("basicContainer", basicContainer);
 app.component("basicForm", basicForm);
+app.component("basicTable", basicTable);
 app.mount("#app");

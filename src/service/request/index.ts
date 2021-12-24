@@ -91,43 +91,43 @@ class KoreaRequest {
     });
   }
 
-  get<T>(config: KoreaRequestConfig<T>): Promise<T> {
+  get<T = any>(config: KoreaRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "GET" });
   }
 
-  post<T>(config: KoreaRequestConfig<T>): Promise<T> {
+  post<T = any>(config: KoreaRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "POST" });
   }
 
-  delete<T>(config: KoreaRequestConfig<T>): Promise<T> {
+  delete<T = any>(config: KoreaRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "DELETE" });
   }
 
-  patch<T>(config: KoreaRequestConfig<T>): Promise<T> {
+  patch<T = any>(config: KoreaRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "PATCH" });
   }
 
-  put<T>(config: KoreaRequestConfig<T>): Promise<T> {
+  put<T = any>(config: KoreaRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "PUT" });
   }
 
-  options<T>(config: KoreaRequestConfig<T>): Promise<T> {
+  options<T = any>(config: KoreaRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "OPTIONS" });
   }
 
-  purge<T>(config: KoreaRequestConfig<T>): Promise<T> {
+  purge<T = any>(config: KoreaRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "PURGE" });
   }
 
-  head<T>(config: KoreaRequestConfig<T>): Promise<T> {
+  head<T = any>(config: KoreaRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "HEAD" });
   }
 
-  link<T>(config: KoreaRequestConfig<T>): Promise<T> {
+  link<T = any>(config: KoreaRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "LINK" });
   }
 
-  unlink<T>(config: KoreaRequestConfig<T>): Promise<T> {
+  unlink<T = any>(config: KoreaRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "UNLINK" });
   }
 }

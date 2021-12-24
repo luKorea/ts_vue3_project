@@ -6,8 +6,12 @@
       </template>
       <template #footer>
         <div class="flex-end">
-          <el-button icon="el-icon-refresh-left">重置</el-button>
-          <el-button icon="el-icon-search" type="primary">搜索</el-button>
+          <el-button icon="el-icon-refresh-left" @click="resetForm"
+            >重置
+          </el-button>
+          <el-button icon="el-icon-search" type="primary" @click="searchData"
+            >搜索
+          </el-button>
         </div>
       </template>
     </basic-form>
@@ -23,16 +27,26 @@ export default defineComponent({
       require: true,
     },
   },
-  setup() {
-    const formData = ref({
+  emits: ["searchData"],
+  setup(props, { emit }) {
+    let formData = ref({
       id: "",
       name: "",
       cellphone: "",
       enable: "",
       createAt: "",
     });
+
+    const resetForm = () => {
+      console.log(formData.value);
+    };
+    const searchData = () => {
+      console.log(formData.value);
+    };
     return {
       formData,
+      resetForm,
+      searchData,
     };
   },
 });
