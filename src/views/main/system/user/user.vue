@@ -7,8 +7,15 @@
       :show-column-index="true"
       :show-column-selection="true"
       :table-data="userList"
-      @selectionChange="deleteAllUser"
+      :table-title="'用户列表'"
+      @selectionChange="getSelectUser"
     >
+      <template #headerHandler>
+        <el-button type="primary" @click="handleAddUser">新增用户</el-button>
+        <el-button type="danger" @click="handleDeleteMoreUser"
+          >删除用户
+        </el-button>
+      </template>
       <template #status="scope">
         <el-tag :type="scope.row.enable ? 'success' : 'danger'" size="mini">
           {{ scope.row.enable ? "启动" : "禁用" }}
@@ -79,15 +86,24 @@ export default defineComponent({
       },
     ];
 
-    const deleteAllUser = (data: any[]) => {
-      let res = data.filter((item) => item.enable !== 1);
-      console.log(res);
+    let selectUser = ref<any>([]);
+    const getSelectUser = (data: any[]) => {
+      selectUser = data;
+    };
+    const handleAddUser = () => {
+      console.log(1);
+    };
+    const handleDeleteMoreUser = () => {
+      console.table(selectUser);
     };
     return {
       searchFormConfig,
       userList,
       propsList,
-      deleteAllUser,
+      selectUser,
+      getSelectUser,
+      handleAddUser,
+      handleDeleteMoreUser,
     };
   },
 });

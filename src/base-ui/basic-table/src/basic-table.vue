@@ -1,6 +1,15 @@
 <template>
   <div class="basic-table">
     <basic-container>
+      <!--更多信息-->
+      <div class="table-header">
+        <slot name="tableHeader">
+          <div class="title">{{ tableTitle }}</div>
+          <div class="btn-wrap">
+            <slot name="headerHandler"></slot>
+          </div>
+        </slot>
+      </div>
       <el-table
         :data="tableData"
         :stripe="stripe"
@@ -32,6 +41,21 @@
           </el-table-column>
         </template>
       </el-table>
+      <!--分页器-->
+      <div class="table-footer">
+        <slot name="tableFooter">
+          <el-pagination
+            v-model:currentPage="currentPage4"
+            :page-size="100"
+            :page-sizes="[100, 200, 300, 400]"
+            :total="400"
+            layout="total, sizes, prev, pager, next, jumper"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+          >
+          </el-pagination>
+        </slot>
+      </div>
     </basic-container>
   </div>
 </template>
@@ -40,6 +64,10 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
+    tableTitle: {
+      type: String,
+      default: "",
+    },
     // 表格数据
     tableData: {
       type: Array,
