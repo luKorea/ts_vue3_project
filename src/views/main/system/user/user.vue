@@ -7,7 +7,13 @@
       :table-data="userList"
     >
       <template #status="scope">
-        {{ scope.row.enable ? "启动" : "禁用" }}
+        <el-button
+          :type="scope.row.enable ? 'success' : 'danger'"
+          plain
+          size="mini"
+        >
+          {{ scope.row.enable ? "启动" : "禁用" }}
+        </el-button>
       </template>
     </basic-table>
   </div>
