@@ -33,6 +33,7 @@ import {
   ElBreadcrumbItem,
   ElTable,
   ElTableColumn,
+  ElTag,
 } from "element-plus";
 
 const components = [
@@ -68,6 +69,7 @@ const components = [
   ElBreadcrumbItem,
   ElTable,
   ElTableColumn,
+  ElTag,
 ];
 
 export default function (app: App): void {

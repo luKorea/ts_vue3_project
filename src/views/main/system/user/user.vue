@@ -4,15 +4,27 @@
     <basic-table
       :column-align="'center'"
       :column-data="propsList"
+      :show-column-index="true"
+      :show-column-selection="true"
       :table-data="userList"
+      @selectionChange="deleteAllUser"
     >
       <template #status="scope">
-        <el-button
-          :type="scope.row.enable ? 'success' : 'danger'"
-          plain
-          size="mini"
-        >
+        <el-tag :type="scope.row.enable ? 'success' : 'danger'" size="mini">
           {{ scope.row.enable ? "启动" : "禁用" }}
+        </el-tag>
+      </template>
+      <template #createAt="{ row }">
+        <span>{{ $filters.formatTime(row.createAt) }}</span>
+      </template>
+      <template #handler>
+        <el-button icon="el-icon-edit" size="mini" type="text">编辑</el-button>
+        <el-button
+          class="delete-btn-color"
+          icon="el-icon-delete"
+          size="mini"
+          type="text"
+          >删除
         </el-button>
       </template>
     </basic-table>
@@ -20,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import { searchFormConfig } from "./config/search-config";
 import PageSearch from "components/page-search";
 import { useStore } from "@/store";
@@ -39,9 +51,6 @@ export default defineComponent({
     });
     const userList = computed(() => store.state.system.userList);
     const propsList = [
-      {
-        type: "selection",
-      },
       {
         label: "用户名",
         prop: "name",
@@ -62,12 +71,23 @@ export default defineComponent({
       {
         label: "创建时间",
         prop: "createAt",
+        slotName: "createAt",
+      },
+      {
+        label: "操作",
+        slotName: "handler",
       },
     ];
+
+    const deleteAllUser = (data: any[]) => {
+      let res = data.filter((item) => item.enable !== 1);
+      console.log(res);
+    };
     return {
       searchFormConfig,
       userList,
       propsList,
+      deleteAllUser,
     };
   },
 });
