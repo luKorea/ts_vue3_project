@@ -35,6 +35,7 @@ import {
   ElTableColumn,
   ElTag,
   ElPagination,
+  ElImage,
 } from "element-plus";
 
 const components = [
@@ -72,6 +73,7 @@ const components = [
   ElTableColumn,
   ElTag,
   ElPagination,
+  ElImage,
 ];
 
 export default function (app: App): void {

@@ -31,7 +31,11 @@
         />
         <!--动态数据-->
         <template v-for="item in columnData" :key="item.prop">
-          <el-table-column v-bind="item" :align="columnAlign">
+          <el-table-column
+            v-bind="item"
+            :align="columnAlign"
+            show-overflow-tooltip
+          >
             <template #default="scope">
               <!--动态设置插槽名，设置作用域插槽-->
               <slot :name="item.slotName" :row="scope.row"
@@ -42,20 +46,20 @@
         </template>
       </el-table>
       <!--分页器-->
-      <div class="table-footer">
-        <slot name="tableFooter">
+      <slot name="tableFooter">
+        <div class="table-footer">
           <el-pagination
-            v-model:currentPage="currentPage4"
-            :page-size="100"
-            :page-sizes="[100, 200, 300, 400]"
-            :total="400"
-            layout="total, sizes, prev, pager, next, jumper"
+            :current-page="page.currentPage"
+            :layout="layout"
+            :page-size="page.pageSize"
+            :page-sizes="pageSizes"
+            :total="tableTotal"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
           >
           </el-pagination>
-        </slot>
-      </div>
+        </div>
+      </slot>
     </basic-container>
   </div>
 </template>
@@ -98,13 +102,47 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    // 分页器数据配置
+    tableTotal: {
+      type: Number,
+      default: 0,
+    },
+    pageSizes: {
+      type: Array,
+      default: () => [10, 20, 30, 40],
+    },
+    page: {
+      type: Object,
+      default: () => ({
+        currentPage: 0,
+        pageSize: 10,
+      }),
+    },
+    layout: {
+      type: String,
+      default: "total, sizes, prev, pager, next, jumper",
+    },
   },
-  emits: ["selectionChange"],
+  emits: ["selectionChange", "update:page"],
   setup(props, { emit }) {
     // 监听选中的状态并将选中的数据返回给父组件处理
     const handleSelectionChange = (e: any) => emit("selectionChange", e);
+    const handleSizeChange = (pageSize: number) => {
+      console.log(pageSize, props.page);
+      emit("update:page", {
+        ...props.page,
+        pageSize,
+      });
+    };
+    const handleCurrentChange = (currentPage: number) =>
+      emit("update:page", {
+        ...props.page,
+        currentPage,
+      });
     return {
       handleSelectionChange,
+      handleSizeChange,
+      handleCurrentChange,
     };
   },
 });

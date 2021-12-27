@@ -12,35 +12,31 @@
               >
                 <el-input
                   v-bind="item.otherOptions"
-                  :model-value="modelValue[`${item.field}`]"
+                  v-model.trim="formData[`${item.field}`]"
                   :placeholder="item.placeholder"
                   :show-password="item.type === 'password'"
-                  @update:modelValue="handleValueChange($event, item.field)"
                 />
               </template>
               <template v-else-if="item.type === 'select'">
                 <el-select
                   v-bind="item.otherOptions"
-                  :model-value="modelValue[`${item.field}`]"
+                  v-model.trim="formData[`${item.field}`]"
                   :placeholder="item.placeholder"
                   style="width: 100%"
-                  @update:modelValue="handleValueChange($event, item.field)"
                 >
                   <el-option
                     v-for="option in item.options"
                     :key="option.value"
-                    :label="option.label"
                     :value="option.value"
-                  >
+                    >{{ option.title }}
                   </el-option>
                 </el-select>
               </template>
               <template v-else-if="item.type === 'datepicker'">
                 <el-date-picker
                   v-bind="item.otherOptions"
-                  :model-value="modelValue[`${item.field}`]"
+                  v-model.trim="formData[`${item.field}`]"
                   style="width: 100%"
-                  @update:modelValue="handleValueChange($event, item.field)"
                 ></el-date-picker>
               </template>
             </el-form-item>
@@ -53,7 +49,7 @@
   </basic-container>
 </template>
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { ref, defineComponent, PropType, watch } from "vue";
 import { IFormItem } from "@/base-ui/basic-form/types";
 
 export default defineComponent({
@@ -87,14 +83,15 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const handleValueChange = (value: any, field: string) => {
-      emit("update:modelValue", {
-        ...props.modelValue,
-        [field]: value,
-      });
-    };
+    // 拷贝数据到子组件中
+    const formData = ref({ ...props.modelValue });
+    // 监听组件数据变化，通知父组件进行修改，不直接修改父组件的数据，实现单一数据流
+    watch(formData, (newValue) => emit("update:modelValue", newValue), {
+      deep: true,
+    });
+
     return {
-      handleValueChange,
+      formData,
     };
   },
 });

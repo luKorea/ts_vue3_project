@@ -2,7 +2,7 @@
   <div class="page-search">
     <basic-form v-model="formData" v-bind="searchFormConfig">
       <template #header>
-        <div class="title-tip">用户管理</div>
+        <div class="title-tip">{{ searchTitle }}</div>
       </template>
       <template #footer>
         <div class="flex-end">
@@ -26,23 +26,24 @@ export default defineComponent({
       type: Object,
       require: true,
     },
+    searchTitle: {
+      type: String,
+      default: "",
+    },
   },
-  emits: ["searchData"],
+  emits: ["resetData", "searchData"],
   setup(props, { emit }) {
-    let formData = ref({
-      id: "",
-      name: "",
-      cellphone: "",
-      enable: "",
-      createAt: "",
-    });
+    // 数据绑定通过config文件中的field字段决定
+    const formItems = props.searchFormConfig?.formItems ?? [];
+    const formOriginData: any = {};
+    formItems.forEach((item: any) => (formOriginData[item.field] = ""));
+    let formData = ref(formOriginData);
 
     const resetForm = () => {
-      console.log(formData.value);
+      formData.value = formOriginData;
+      emit("resetData");
     };
-    const searchData = () => {
-      console.log(formData.value);
-    };
+    const searchData = () => emit("searchData", formData.value);
     return {
       formData,
       resetForm,

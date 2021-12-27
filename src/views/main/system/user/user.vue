@@ -1,109 +1,38 @@
 <template>
   <div class="user">
-    <page-search :search-form-config="searchFormConfig"></page-search>
-    <basic-table
-      :column-align="'center'"
-      :column-data="propsList"
-      :show-column-index="true"
-      :show-column-selection="true"
-      :table-data="userList"
-      :table-title="'用户列表'"
-      @selectionChange="getSelectUser"
-    >
-      <template #headerHandler>
-        <el-button type="primary" @click="handleAddUser">新增用户</el-button>
-        <el-button type="danger" @click="handleDeleteMoreUser"
-          >删除用户
-        </el-button>
-      </template>
-      <template #status="scope">
-        <el-tag :type="scope.row.enable ? 'success' : 'danger'" size="mini">
-          {{ scope.row.enable ? "启动" : "禁用" }}
-        </el-tag>
-      </template>
-      <template #createAt="{ row }">
-        <span>{{ $filters.formatTime(row.createAt) }}</span>
-      </template>
-      <template #handler>
-        <el-button icon="el-icon-edit" size="mini" type="text">编辑</el-button>
-        <el-button
-          class="delete-btn-color"
-          icon="el-icon-delete"
-          size="mini"
-          type="text"
-          >删除
-        </el-button>
-      </template>
-    </basic-table>
+    <page-search
+      :search-form-config="searchFormConfig"
+      search-title="用户管理"
+      @resetData="handleResetData"
+      @searchData="handleSearchData"
+    ></page-search>
+    <page-content
+      ref="pageContentRef"
+      :content-table-config="contentTableConfig"
+      page-name="users"
+    ></page-content>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import { searchFormConfig } from "./config/search-config";
+import { contentTableConfig } from "@/views/main/system/user/config/content-config";
 import PageSearch from "components/page-search";
-import { useStore } from "@/store";
+import PageContent from "components/page-content/src/page-content.vue";
+import { usePageSearch } from "@/hooks/usePageSearch";
 
 export default defineComponent({
   name: "user",
-  components: { PageSearch },
+  components: { PageContent, PageSearch },
   setup() {
-    const store = useStore();
-    store.dispatch("system/getPageList", {
-      pageUrl: "/users/list",
-      queryInfo: {
-        offset: 1,
-        size: 10,
-      },
-    });
-    const userList = computed(() => store.state.system.userList);
-    const propsList = [
-      {
-        label: "用户名",
-        prop: "name",
-      },
-      {
-        label: "真实姓名",
-        prop: "realname",
-      },
-      {
-        label: "电话",
-        prop: "cellphone",
-      },
-      {
-        label: "状态",
-        prop: "enable",
-        slotName: "status",
-      },
-      {
-        label: "创建时间",
-        prop: "createAt",
-        slotName: "createAt",
-      },
-      {
-        label: "操作",
-        slotName: "handler",
-      },
-    ];
-
-    let selectUser = ref<any>([]);
-    const getSelectUser = (data: any[]) => {
-      selectUser = data;
-    };
-    const handleAddUser = () => {
-      console.log(1);
-    };
-    const handleDeleteMoreUser = () => {
-      console.table(selectUser);
-    };
+    const [pageContentRef, handleResetData, handleSearchData] = usePageSearch();
     return {
       searchFormConfig,
-      userList,
-      propsList,
-      selectUser,
-      getSelectUser,
-      handleAddUser,
-      handleDeleteMoreUser,
+      contentTableConfig,
+      pageContentRef,
+      handleResetData,
+      handleSearchData,
     };
   },
 });
